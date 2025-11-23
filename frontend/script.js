@@ -140,30 +140,39 @@ function createCategoryListElement(categoryTree) {
     return ul;
 }
 
+function getCategoryPath(categoryId, categories) {
+    let path = [];
+    let currentCategory = categories.find(c => c.id === categoryId);
+    while (currentCategory) {
+        path.unshift(currentCategory.name);
+        currentCategory = categories.find(c => c.id === currentCategory.parent);
+    }
+    return path.join(' -> ');
+}
+
 async function fetchTransactions() {
     try {
         const response = await fetch('/api/transactions');
         const transactions = await response.json();
         const transactionsList = document.getElementById('transactions-list');
+        transactionsList.innerHTML = '';
+
+        const transactionList = document.createElement('ul');
+        transactions.forEach(transaction => {
+            const categoryPath = getCategoryPath(transaction.category, categories) || 'Uncategorized';
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <span>${transaction.date} - ${transaction.type} - ${transaction.amount} - ${transaction.description} - ${categoryPath}</span>
+                <button onclick="editTransaction(${transaction.id})">Edit</button>
+                <button onclick="deleteTransaction(${transaction.id})">Delete</button>
+            `;
+            transactionList.appendChild(listItem);
+        });
+
+        transactionsList.appendChild(transactionList);
     } catch (error) {
         console.error('Error fetching transactions:', error);
     }
-    transactionsList.innerHTML = '';
-
-    const transactionList = document.createElement('ul');
-    transactions.forEach(transaction => {
-        const category = categories.find(c => c.id === transaction.category);
-        const categoryName = category ? category.name : 'Uncategorized';
-        const listItem = document.createElement('li');
-        listItem.innerHTML = `
-            <span>${transaction.date} - ${transaction.type} - ${transaction.amount} - ${transaction.description} - ${categoryName}</span>
-            <button onclick="editTransaction(${transaction.id})">Edit</button>
-            <button onclick="deleteTransaction(${transaction.id})">Delete</button>
-        `;
-        transactionList.appendChild(listItem);
-    });
-
-    transactionsList.appendChild(transactionList);
 }
 
 async function addTransaction(transaction) {
@@ -354,15 +363,14 @@ function updateMonthlyTransactionsTable(transactions) {
         </thead>
         <tbody>
             ${transactions.map(t => {
-                const category = categories.find(c => c.id === t.category);
-                const categoryName = category ? category.name : 'Uncategorized';
+                const categoryPath = getCategoryPath(t.category, categories) || 'Uncategorized';
                 return `
                     <tr>
                         <td>${t.date}</td>
                         <td>${t.type}</td>
                         <td>${t.amount}</td>
                         <td>${t.description}</td>
-                        <td>${categoryName}</td>
+                        <td>${categoryPath}</td>
                     </tr>
                 `;
             }).join('')}

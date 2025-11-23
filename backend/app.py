@@ -4,10 +4,13 @@ from datetime import datetime
 import csv
 import io
 import fcntl
+import os
 
 app = Flask(__name__, static_folder='../frontend', static_url_path='')
 
-DATA_FILE = '../data.json'
+# Construct the absolute path to the data.json file
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_FILE = os.path.join(BASE_DIR, '..', 'data.json')
 
 def read_data():
     with open(DATA_FILE, 'r') as f:

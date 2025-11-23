@@ -1,5 +1,21 @@
 {
-  "categories": [],
+  "categories": [
+    {
+      "name": "Food",
+      "parent": null,
+      "id": 1
+    },
+    {
+      "name": "Food",
+      "parent": null,
+      "id": 2
+    },
+    {
+      "name": "Food",
+      "parent": null,
+      "id": 3
+    }
+  ],
   "transactions": [],
   "settings": {}
 }
