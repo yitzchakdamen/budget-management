@@ -1,0 +1,12 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+#category-management {
+    margin-top: 20px;
+}

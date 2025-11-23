@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Budget Management</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Monthly Budget Management</h1>
+
+    <div id="monthly-view">
+        <h2>Monthly View</h2>
+        <input type="month" id="month-selector">
+        <div id="monthly-summary">
+            <!-- Summary will be displayed here -->
+        </div>
+        <div class="charts">
+            <canvas id="category-pie-chart"></canvas>
+            <canvas id="income-expense-bar-chart"></canvas>
+        </div>
+        <table id="monthly-transactions">
+            <!-- Transactions will be displayed here -->
+        </table>
+    </div>
+    <div id="category-management">
+        <h2>Category Management</h2>
+        <div id="categories-list">
+            <!-- Category UI will be dynamically generated here -->
+        </div>
+        <h3>Add a New Category</h3>
+        <form id="add-category-form">
+            <input type="text" id="new-category-name" placeholder="Category Name" required>
+            <select id="new-category-parent">
+                <option value="">None (Top-level)</option>
+            </select>
+            <button type="submit">Add Category</button>
+        </form>
+    </div>
+
+    <div id="transaction-management">
+        <h2>Transaction Management</h2>
+        <div id="transactions-list">
+            <!-- Transaction UI will be dynamically generated here -->
+        </div>
+        <h3>Add a New Transaction</h3>
+        <form id="add-transaction-form">
+            <select id="new-transaction-type" required>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+            </select>
+            <input type="number" id="new-transaction-amount" placeholder="Amount" required>
+            <input type="date" id="new-transaction-date" required>
+            <select id="new-transaction-category"></select>
+            <input type="text" id="new-transaction-description" placeholder="Description">
+            <textarea id="new-transaction-notes" placeholder="Notes"></textarea>
+            <button type="submit">Add Transaction</button>
+        </form>
+    </div>
+
+    <div id="csv-upload">
+        <h2>Upload CSV</h2>
+        <form id="upload-csv-form">
+            <input type="file" id="csv-file" accept=".csv" required>
+            <button type="submit">Upload</button>
+        </form>
+        <div id="upload-status"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
